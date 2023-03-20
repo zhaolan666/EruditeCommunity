@@ -1,30 +1,42 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { DefineComponent } from 'vue';
+import ColumnList, { ColumnProps } from './components/ColumnList.vue';
+
+
+const testData: ColumnProps[] = [
+  {
+    id: 1,
+    title: 'test1的专栏',
+    description: '这是test1专栏，有一段非常有意思的简介，可以更新一下哦',
+    avator: 'https://p0.itc.cn/q_70/images01/20220406/a01312d86b8745619e2ed0075d1c1635.png'
+  },
+  {
+    id: 2,
+    title: 'test2的专栏',
+    description: '这是test2专栏，有一段非常有意思的简介，可以更新一下哦',
+    avator: 'https://p0.itc.cn/q_70/images01/20220406/a01312d86b8745619e2ed0075d1c1635.png'
+  },
+  {
+    id: 3,
+    title: 'test1的专栏',
+    description: '这是test3专栏，有一段非常有意思的简介，可以更新一下哦',
+    avator: 'https://p0.itc.cn/q_70/images01/20220406/a01312d86b8745619e2ed0075d1c1635.png'
+  },
+  {
+    id: 4,
+    title: 'test2的专栏',
+    description: '这是test4专栏，有一段非常有意思的简介，可以更新一下哦',
+    // avator: 'https://p0.itc.cn/q_70/images01/20220406/a01312d86b8745619e2ed0075d1c1635.png'
+    avator: ''
+  },
+]
+
+
+
 </script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="container">
+    <ColumnList :list="testData"></ColumnList>
+    <slot />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>

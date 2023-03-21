@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue';
 import Dropdown from './Dropdown.vue';
+import DropdownItem from './DropdownItem.vue';
 export interface UserProps {
   isLogin: boolean;
   name?: string;
@@ -25,7 +26,12 @@ const props = defineProps({
     </ul>
     <ul v-else class="list-inline mb-0">
       <li class="list-inline-item">
-        <Dropdown :title="`你好 ${user.name}`" />
+        <Dropdown :title="`你好 ${user.name}`">
+          <DropdownItem><a href="#" class="drop-item">新建文章</a></DropdownItem>
+
+          <DropdownItem disabled="true"><a href="#" class="drop-item">编辑资料</a></DropdownItem>
+          <DropdownItem><a href="#" class="drop-item">退出登录</a></DropdownItem>
+        </Dropdown>
       </li>
     </ul>
   </nav>

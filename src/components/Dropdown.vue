@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-
+import { ref, watch } from 'vue';
+import useClickOutside from '../hooks/useClickOutside'
 const props = defineProps({
   title: {
     type: String,
@@ -9,13 +8,24 @@ const props = defineProps({
   }
 })
 const isOpen = ref(false)
+const dropdownRef = ref<null | HTMLElement>(null)
 const toggleOpen = () => {
   isOpen.value = !isOpen.value
 }
+
+const isClickOutside = useClickOutside(dropdownRef)
+
+watch(isClickOutside, () => {
+  if (isOpen.value && isClickOutside.value) {
+    isOpen.value = false
+  }
+})
+
+
 </script>
 
 <template>
-  <div class="dropdown">
+  <div class="dropdown" ref="dropdownRef">
     <a href="#" class="btn btn-outline-light my-2 dropdown-toggle" @click.prevent="toggleOpen">
       {{ title }}
     </a>

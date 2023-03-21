@@ -1,10 +1,36 @@
 <script setup lang="ts">
+import { reactive } from 'vue'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue';
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue';
+// @ts-ignore
+import ValidateInput, { RulesProp } from './components/ValidateInput.vue';
 const currentUser: UserProps = {
   isLogin: true,
   name: 'invoke'
 }
+const emailRules: RulesProp = [
+  { type: 'required', message: '电子邮箱地址不能为空' },
+  { type: 'email', message: '请输入正确的电子邮箱格式' }
+]
+
+const emailRef = reactive({
+  val: "",
+  error: false,
+  message: ""
+})
+
+const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+const validateEmail = () => {
+  if (emailRef.val.trim() === '') {
+    emailRef.error = true
+    emailRef.message = 'can not be empty'
+  } else if (!emailReg.test(emailRef.val)) {
+    emailRef.error = true
+    emailRef.message = 'should be valid '
+  }
+}
+
 const testData: ColumnProps[] = [
   {
     id: 1,
@@ -32,13 +58,26 @@ const testData: ColumnProps[] = [
     avator: ''
   },
 ]
-
-
-
 </script>
 <template>
   <div class="container">
     <ColumnList :list="testData"></ColumnList>
     <GlobalHeader :user="currentUser" />
+    <form action="">
+      <div class="mb-3">
+        <label class="form-label">邮箱地址</label>
+        <ValidateInput :rules="emailRules" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+          v-model="emailRef.val" @blur="validateEmail">
+      </div>
+      <div class="from-text" v-if="emailRef.error">{{ emailRef.message }}</div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">密码</label>
+        <input type="password" class="form-control" id="exampleInputPassword1">
+      </div>
+    </form>
   </div>
 </template>

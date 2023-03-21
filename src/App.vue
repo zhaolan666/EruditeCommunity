@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { DefineComponent } from 'vue';
 import ColumnList, { ColumnProps } from './components/ColumnList.vue';
-
-
+import GlobalHeader, { UserProps } from './components/GlobalHeader.vue';
+const currentUser: UserProps = {
+  isLogin: true,
+  name: 'invoke'
+}
 const testData: ColumnProps[] = [
   {
     id: 1,
@@ -37,6 +39,6 @@ const testData: ColumnProps[] = [
 <template>
   <div class="container">
     <ColumnList :list="testData"></ColumnList>
-    <slot />
+    <GlobalHeader :user="currentUser" />
   </div>
 </template>

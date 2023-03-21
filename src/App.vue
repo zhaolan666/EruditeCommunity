@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue';
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue';
-// @ts-ignore
-import ValidateInput, { RulesProp } from './components/ValidateInput.vue';
+import type { RulesProp } from './typing';
+import ValidateInput from './components/ValidateInput.vue';
 const currentUser: UserProps = {
   isLogin: true,
   name: 'invoke'
@@ -13,6 +13,7 @@ const emailRules: RulesProp = [
   { type: 'email', message: '请输入正确的电子邮箱格式' }
 ]
 
+const emailVal = ref('invoke')
 const emailRef = reactive({
   val: "",
   error: false,
@@ -66,7 +67,9 @@ const testData: ColumnProps[] = [
     <form action="">
       <div class="mb-3">
         <label class="form-label">邮箱地址</label>
-        <ValidateInput :rules="emailRules" />
+        <ValidateInput :rules="emailRules" v-model="emailVal"></ValidateInput>
+        {{ emailVal }}
+
       </div>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>

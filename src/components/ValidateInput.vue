@@ -1,25 +1,20 @@
 <script setup lang="ts">
-import { reactive, PropType } from 'vue'
-
+import { reactive, PropType, defineEmits, ref } from 'vue'
+import type { RulesProp } from '../typing';
 const props = defineProps({
-  rules: Array as PropType<RulesProp>
+  rules: Array as PropType<RulesProp>,
+  modelValue: String
 })
 
 const inputRef = reactive({
-  val: "",
+  val: props.modelValue || '',
   error: false,
   message: ""
 })
 
 const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
-interface RuleProp {
-  type: 'required' | 'email';
-  message: string;
-}
 
-// @ts-ignore
-export type RulesProp = RuleProp[]
 
 const validateInput = () => {
   if (props.rules) {
@@ -42,6 +37,13 @@ const validateInput = () => {
   }
 }
 
+const emit = defineEmits(['update:modelValue'])
+const updateValue = (e: KeyboardEvent) => {
+  const targetValue = (e.target as HTMLInputElement).value
+  const targetValueRef = ref(targetValue)
+  inputRef.val = targetValueRef.value
+  emit('update:modelValue', targetValueRef.value)
+}
 
 
 
@@ -50,8 +52,8 @@ const validateInput = () => {
 
 <template>
   <div class="validate-input-container pb-3">
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="inputRef.val"
-      @blur="validateInput" :class="{ 'is-invalid': inputRef.error }">
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" :value="inputRef.val"
+      @input:update:modelValue="updateValue" @blur="validateInput" :class="{ 'is-invalid': inputRef.error }">
     <span v-if="inputRef.error" class="invalid-feedback">{{ inputRef.message }}</span>
   </div>
 </template>

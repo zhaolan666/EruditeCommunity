@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
     "moduleResolution": "Node",
+    "allowJs": true,
     "strict": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
@@ -14,6 +16,6 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue","env.d.ts","**/.vitepress/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

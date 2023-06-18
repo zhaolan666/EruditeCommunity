@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { reactive, PropType, onMounted } from "vue";
-// import { emitter } from "./ValidateForm.vue";
+import { emitter } from "../utils/index";
 import type { RulesProp } from "../typing";
+export type TagType = "input" | "textarea";
 const props = defineProps({
   rules: Array as PropType<RulesProp>,
   modelValue: String,
-  type: String,
+  tag: {
+    type: String as PropType<TagType>,
+  },
+});
+
+const emit = defineEmits(["update:emailVal"]);
+
+onMounted(() => {
+  emitter.emit("form-item-created", validateInput);
 });
 
 const inputRef = reactive({
@@ -14,13 +23,12 @@ const inputRef = reactive({
   error: false,
   message: "",
 });
-
 const emailReg =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const validateInput = () => {
   if (props.rules) {
-    const allPassed = props.rules.every((rule) => {
+    const allPassed = props.rules.every((rule: { message: any; type: any }) => {
       let passed = true;
       inputRef.message = rule.message;
       switch (rule.type) {
@@ -40,8 +48,6 @@ const validateInput = () => {
   }
   return true;
 };
-
-const emit = defineEmits(["update:emailVal"]);
 const updateValue = (e: KeyboardEvent) => {
   const targetValue = (e.target as HTMLInputElement).value;
   const targetType = (e.target as HTMLInputElement).type;
@@ -49,21 +55,11 @@ const updateValue = (e: KeyboardEvent) => {
   inputRef.type = targetType;
   emit("update:emailVal", targetValue);
 };
-
-onMounted(() => {
-  // emitter.emit("form-item-created", validateInput);
-});
 </script>
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-  customOptions: {},
-};
-</script>
-
 <template>
   <div class="validate-input-container pb-3">
     <input
+      v-if="tag !== 'textarea'"
       :type="inputRef.type"
       class="form-control"
       id="exampleInputEmail1"

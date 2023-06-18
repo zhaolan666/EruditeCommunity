@@ -3,12 +3,11 @@ import ColumnList from "./components/ColumnList.vue";
 import GlobalHeader from "./components/GlobalHeader.vue";
 import { UserProps } from "./typing/index";
 import testData from "./api/data";
-import { useStore } from "vuex";
+import { store } from "./store/index";
 import { computed } from "vue";
-const store = useStore();
-console.log(store, "store data from vuex");
+
 const currentUser = computed(() => store.state.user);
-const biggerColumnLen = computed(() => store.getters.biggerColumnsLen());
+const biggerColumnLen = computed(() => store.getters.biggerColumnsLen);
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-import { computed } from "../../docs/.vitepress/cache/deps/vue";
+import { computed } from "vue";
 import PostList from "../components/PostList.vue";
 const route = useRoute();
 const store = useStore();

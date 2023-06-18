@@ -1,4 +1,4 @@
-import { InjectionKey } from 'vue'
+// import { InjectionKey } from 'vue'
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import { testData, testPosts } from '../api/index'
 import type { ColumnProps, PostProps } from '../typing'
@@ -6,6 +6,7 @@ interface UserProps {
   isLogin: boolean;
   name?: string;
   id?: number;
+  columnId?: number;
 }
 export interface GlobalDataProps {
   columns: ColumnProps[]
@@ -18,19 +19,21 @@ export interface State {
 }
 
 // 定义 injection key
-export const key: InjectionKey<Store<State>> = Symbol()
+// export const key: InjectionKey<Store<State>> = Symbol()
 
 
-const store = createStore<GlobalDataProps>({
+export const store = createStore<GlobalDataProps>({
   state: {
     columns: testData,
     posts: testPosts,
     user: {
-      isLogin: false
+      isLogin: true,
+      name: 'mingdu',
+      columnId: 1
     },
   },
   getters: {
-    biggerColumnsLen(state) {
+    biggerColumnsLen: (state) => {
       return state.columns.filter((c: any) => c.id > 2).length
     },
     getColumnById: (state) => (id: number) => {
@@ -44,17 +47,21 @@ const store = createStore<GlobalDataProps>({
   mutations: {
     login(state) {
       state.user = { ...state.user, isLogin: true, name: 'viking' }
-    }
-
+    },
+    CreatePost(state,newPost) {
+      state.posts.push(newPost)
+    } 
   },
   actions: {
 
   }
 })
 
-export function useStore() {
-  return baseUseStore(key)
-}
+
+// export function useStore() {
+//   return baseUseStore(key)
+// }
+
 
 
 export default {

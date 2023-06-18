@@ -11,9 +11,9 @@
 
 <script lang="ts" setup>
 import { defineComponent, onMounted, onUnmounted } from "vue";
-import mitt from "mitt";
+import { emitter } from "../utils/index";
 const emit = defineEmits(["form-submit"]);
-const emitter = mitt();
+
 type ValidateFunc = () => boolean;
 
 let funcArr: ValidateFunc[] = [];
@@ -23,17 +23,15 @@ const submitForm = () => {
   emit("form-submit", result);
 };
 
-const callback = (func: ValidateFunc) => {
-  funcArr.push(func);
-};
 onMounted(() => {
-  // @ts-ignore
   emitter.on("form-item-created", callback);
 });
 onUnmounted(() => {
-  // @ts-ignore
   emitter.off("form-item-created", callback);
   funcArr = [];
 });
+const callback = (func: ValidateFunc) => {
+  funcArr.push(func);
+};
 </script>
 

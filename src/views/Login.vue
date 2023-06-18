@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { useStore } from "vuex";
+import store from "../store/index";
 import { useRouter } from "vue-router";
 import type { RulesProp } from "../typing";
 import ValidateForm from "../components/ValidateForm.vue";
 import ValidateInput from "../components/ValidateInput.vue";
-const store = useStore();
 const router = useRouter();
 const emailRules: RulesProp = [
   { type: "required", message: "电子邮箱地址不能为空" },

@@ -10,9 +10,10 @@ module.exports = {
         "plugin:@typescript-eslint/recommended"
     ],
     "overrides": [],
-    "parser": "@typescript-eslint/parser",
+    "parser": "vue-eslint-parser",
     "parserOptions": {
         "ecmaVersion": "latest",
+        "parser": "@typescript-eslint/parser",
         "sourceType": "module"
     },
     "plugins": [
@@ -22,5 +23,8 @@ module.exports = {
     "rules": {
         "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
         "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-    }
+    },
+    "vue/multi-word-component-names": ["error", {
+        "ignores": ["*.vue"]
+    }]
 }
